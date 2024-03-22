@@ -1,5 +1,5 @@
 /** @format */
-"use client";
+
 import { createTheme } from "@mui/material/styles";
 
 // Define the main colors for your theme
@@ -13,6 +13,7 @@ const theme = createTheme({
     common: {
       blue: arcBlue,
       orange: arcOrange,
+      grey: arcGrey,
     },
     primary: {
       main: arcBlue,
@@ -23,10 +24,10 @@ const theme = createTheme({
   },
   typography: {
     tab: {
-      fontFamily: "Raleway",
+      fontFamily: "Roboto",
       textTransform: "none",
-      fontWeight: 700,
-      color: "white",
+      fontWeight: 100,
+      color: "#000",
       fontSize: "1rem",
     },
     estimate: {
@@ -36,12 +37,13 @@ const theme = createTheme({
       color: "white",
     },
     h2: {
-      fontFamily: "Raleway",
+      fontFamily: "Roboto",
       fontWeight: 700,
       fontSize: "2.5rem",
-      color: arcBlue,
+      color: "#000",
       lineHeight: 1.5,
       marginLeft: "2rem",
+      textDecoration: "none",
     },
     h3: {
       fontFamily: "Pacifico",
@@ -62,12 +64,14 @@ const theme = createTheme({
     subtitle1: {
       fontSize: "1.25rem",
       fontWeight: 300,
-      color: arcGrey,
+      color: "#fff",
     },
     subtitle2: {
-      color: "white",
-      fontWeight: 300,
-      fontSize: "1.25rem",
+      color: "#000",
+      fontSize: "0.78rem",
+      fontFamily: "Roboto",
+      textTransform: "none",
+      fontWeight: 500,
     },
     body1: {
       fontSize: "1.25rem",
@@ -96,6 +100,21 @@ const theme = createTheme({
         root: {
           color: arcBlue,
           fontSize: "1rem",
+        },
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          color: arcGrey,
+          fontWeight: 300,
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#fff",
         },
       },
     },
