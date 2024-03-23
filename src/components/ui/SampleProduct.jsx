@@ -233,17 +233,25 @@ const SampleProduct = () => {
           ))}
         </Grid>
       </Grid>
-      <Grid item>
+      <Grid
+        item
+        sx={{ backgroundColor: "#F2F4F5", width: "100%", marginTop: 2 }}>
         <Grid item container direction="column">
           <Grid item>
             <Typography
               variant="h5"
               component="div"
-              sx={{ textAlign: "center", fontWeight: 500 }}>
+              sx={{ textAlign: "center", fontWeight: 500, paddingTop: 4 }}>
               Latest News
             </Typography>
           </Grid>
-          <Grid item sx={{ width: "90%", mx: "auto", my: 5 }}>
+          <Grid
+            item
+            sx={{
+              width: "90%",
+              mx: "auto",
+              my: 5,
+            }}>
             <Grid
               item
               container

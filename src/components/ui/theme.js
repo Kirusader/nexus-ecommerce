@@ -67,6 +67,13 @@ const theme = createTheme({
       fontWeight: 300,
       color: "#fff",
     },
+    footer: {
+      color: "#000",
+      fontSize: "0.70rem",
+      fontFamily: "Roboto",
+      textTransform: "none",
+      fontWeight: 300,
+    },
     subtitle2: {
       color: "#000",
       fontSize: "0.78rem",

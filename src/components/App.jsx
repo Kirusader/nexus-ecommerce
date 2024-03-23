@@ -5,6 +5,7 @@ import Header from "./ui/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import Home from "./Home";
+import Footer from "./Footer";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }
