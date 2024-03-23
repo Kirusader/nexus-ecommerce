@@ -24,6 +24,7 @@ import TPLINKUSB from "../assets/TP-LinkUsb.png";
 import ScarterMouse from "../assets/ScaterMouse.png";
 import HyperStreamer from "../assets/HyperXStreamer.png";
 import { Link } from "react-router-dom";
+import SampleProduct from "./ui/SampleProduct";
 function NextArrow(props) {
   const { style, onClick } = props;
   return (
@@ -251,7 +252,7 @@ const Home = () => {
               }}>
               <img
                 src={product.image}
-                style={{ maxWidth: 100,alignContent:"left", height: 100 }}
+                style={{ maxWidth: 100, alignContent: "left", height: 100 }}
                 alt="Slide"
               />
               <Typography
@@ -259,7 +260,8 @@ const Home = () => {
                 sx={{
                   textAlign: "left",
                   textDecoration: "none",
-                  marginTop: 1,marginLeft:2,
+                  marginTop: 1,
+                  marginLeft: 2,
                   textTransform: "none",
                 }}>
                 {product.category}
@@ -267,6 +269,9 @@ const Home = () => {
             </Paper>
           ))}
         </Slider>
+      </Grid>
+      <Grid item>
+        <SampleProduct />
       </Grid>
     </Grid>
   );

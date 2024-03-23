@@ -30,11 +30,12 @@ const theme = createTheme({
       color: "#000",
       fontSize: "1rem",
     },
-    estimate: {
+    shopnow: {
       fontFamily: "Pacifico",
       fontSize: "1rem",
       textTransform: "none",
       color: "white",
+      backgroundColor: "#FA8232",
     },
     h2: {
       fontFamily: "Roboto",
