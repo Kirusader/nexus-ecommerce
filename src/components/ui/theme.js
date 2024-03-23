@@ -84,11 +84,11 @@ const theme = createTheme({
       fontWeight: 300,
       color: arcGrey,
     },
-    learnButton: {
-      borderColor: arcBlue,
+    readMore: {
+      borderColor: arcOrange,
       borderWidth: 2,
       textTransform: "none",
-      color: arcBlue,
+      color: arcOrange,
       borderRadius: 50,
       fontFamily: "Roboto",
       fontWeight: "bold",
