@@ -74,9 +74,9 @@ const theme = createTheme({
       fontWeight: 500,
     },
     body1: {
-      fontSize: "1.25rem",
-      color: arcGrey,
-      fontWeight: 300,
+      fontSize: "10px",
+      color: "#000",
+      fontWeight: 500,
     },
     caption: {
       fontSize: "1rem",

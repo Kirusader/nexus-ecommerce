@@ -4,6 +4,7 @@ import HeaderTop from "./HeaderTop";
 import Galaxy21Image from "../../assets/samsung s21.jpeg";
 import GalaxyA12Image from "../../assets/Galaxy A12.jpeg";
 import SonyPlayStation from "../../assets/Sonyplaystation.jpeg";
+import drawerBackground from "../../assets/plates.png";
 import {
   AppBar,
   Toolbar,
@@ -239,7 +240,15 @@ export default function Header() {
           </AppBar>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", marginLeft: 5 }}>
+      <Box
+        sx={{
+          display: "flex",
+          margin: 5,
+          backgroundImage: `url(${drawerBackground})`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+        }}>
         <Drawer
           variant="persistent"
           elevation={10}
@@ -248,9 +257,9 @@ export default function Header() {
               width: 240,
               height: "auto",
               position: "relative",
-              bgcolor: "background.paper", // Background color
-              border: "1px solid #ccc", // Right border
-              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)", // Optional: Adds shadow
+              bgcolor: "background.paper",
+              border: "1px solid #ccc",
+              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
             },
           }}
           anchor="left"
@@ -284,13 +293,13 @@ export default function Header() {
         </Drawer>
 
         <Drawer
-          variant="persistent"
           anchor="left"
+          variant="persistent"
           open={drawerOpen}
           sx={{
             "& .MuiDrawer-paper": {
               marginLeft: 2,
-              width: 400,
+              width: 450,
               height: "auto",
               position: "relative",
               bgcolor: "background.paper",
@@ -344,50 +353,58 @@ export default function Header() {
                     FEATURED PHONES
                   </Typography>
                 </Grid>
+
                 <Grid item>
                   <List>
                     {selectedSubCategory ? (
                       featuredItems[selectedSubCategory].map((item, index) => (
-                        <Grid
-                          item
-                          container
-                          key={index}
-                          alignItems="center"
-                          justifyContent="flex-start"
-                          sx={{ maxWidth: "100%" }}>
-                          <Grid item xs={12} sm={4}>
-                            <img
-                              src={item.productImage}
-                              alt={item.model}
-                              style={{ maxWidth: 50, height: "auto" }}
-                            />
-                          </Grid>
+                        <Box
+                          sx={{
+                            border: "1px solid #ccc",
+                            margin: 2,
+                            paddingLeft: 2,
+                          }}>
                           <Grid
                             item
-                            xs={12}
-                            sm={8}
-                            sx={{ maxWidth: 200, margin: 0 }}>
-                            <Grid item container direction="column">
-                              <Box padding={2}>
-                                <Grid item>
-                                  <Typography variant="subtitle2">
-                                    {item.phoneType}
-                                  </Typography>
-                                </Grid>
-                                <Grid item>
-                                  <Typography variant="subtitle2">
-                                    {item.model}
-                                  </Typography>
-                                </Grid>
-                                <Grid item>
-                                  <Typography variant="h4">
-                                    ${item.price}
-                                  </Typography>
-                                </Grid>
-                              </Box>
+                            container
+                            key={index}
+                            alignItems="center"
+                            justifyContent="flex-start"
+                            sx={{ maxWidth: "100%" }}>
+                            <Grid item xs={12} sm={4}>
+                              <img
+                                src={item.productImage}
+                                alt={item.model}
+                                style={{ maxWidth: 60, height: "auto" }}
+                              />
+                            </Grid>
+                            <Grid
+                              item
+                              xs={12}
+                              sm={8}
+                              sx={{ maxWidth: 300, margin: 0 }}>
+                              <Grid item container direction="column">
+                                <Box padding={2}>
+                                  <Grid item>
+                                    <Typography variant="subtitle2">
+                                      {item.phoneType}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography variant="subtitle2">
+                                      {item.model}
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item>
+                                    <Typography variant="h4">
+                                      ${item.price}
+                                    </Typography>
+                                  </Grid>
+                                </Box>
+                              </Grid>
                             </Grid>
                           </Grid>
-                        </Grid>
+                        </Box>
                       ))
                     ) : (
                       <Grid item>
