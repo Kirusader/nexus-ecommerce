@@ -1,7 +1,8 @@
 /** @format */
 
-import { Button, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Badge, Button, Grid, IconButton, Typography } from "@mui/material";
+import { ShoppingCart as ShoppingCartIcon } from "@mui/icons-material";
+import React, { useContext, useEffect, useState } from "react";
 import ipadProLaptop from "../../assets/ipadProLaptop.png";
 import { styled, useTheme } from "@mui/material/styles";
 import ButtonArrow from "./ButtonArrow";
@@ -11,6 +12,15 @@ import avatarMessageReview from "../../assets/ChatCircleDots.svg";
 import readMoreImage1 from "../../assets/readmoreImg1.svg";
 import readMoreImage2 from "../../assets/readmoreImg2.svg";
 import readMoreImage3 from "../../assets/readmoreImg3.svg";
+import CartContext from "../../store/CartContext";
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: 11,
+    top: -1,
+
+    padding: "0 4px",
+  },
+}));
 const StyledShopNowButton = styled(Button)(({ theme }) => ({
   ...theme.typography.shopnow,
   backgroundColor: theme.palette.common.orange,
@@ -44,6 +54,7 @@ const SampleProduct = () => {
     };
     getProducts();
   }, []);
+  const cartCtxt = useContext(CartContext);
 
   return (
     <Grid item>
@@ -210,23 +221,40 @@ const SampleProduct = () => {
                     {product.title}
                   </Typography>
                 </Grid>
-                <Grid item>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      width: 200,
-                      marginBottom: 0,
-                      textAlign: "left",
-                      fontSize: "1.2rem",
-                      fontWeight: 600,
-                      color: "#3261e3",
-                      paddingBottom: 0,
-                      mx: 1,
-                      marginTop: "auto",
-                    }}
-                    component="div">
-                    £{product.price}
-                  </Typography>
+                <Grid item sx={{ width: 200 }}>
+                  <Grid
+                    item
+                    container
+                    justifyContent="space-around"
+                    alignItems="center">
+                    <Grid item>
+                      {" "}
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          marginBottom: 0,
+                          textAlign: "left",
+                          fontSize: "1.2rem",
+                          fontWeight: 600,
+                          color: "#3261e3",
+                          paddingBottom: 0,
+                          mx: 1,
+                          marginTop: "auto",
+                        }}
+                        component="div">
+                        £{product.price}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <StyledBadge
+                        badgeContent={"+"}
+                        sx={{ color: "orange", left: 23 }}>
+                        <IconButton onClick={() => cartCtxt.addItem(product)}>
+                          <ShoppingCartIcon sx={{ color: "orange" }} />
+                        </IconButton>
+                      </StyledBadge>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>

@@ -2,15 +2,16 @@
 
 import { Grid, Typography } from "@mui/material";
 import React from "react";
-import visaCard from "../assets/visa.svg";
-import masterCard from "../assets/mastercard.svg";
-import payPalPay from "../assets/paypal.svg";
-import applePay from "../assets/applepay.svg";
-import googlePay from "../assets/goolepay.svg";
-import twitter1 from "../assets/twitter1.svg";
-import facebook2 from "../assets/facebook2.svg";
-import instagram3 from "../assets/instagram3.svg";
-import github4 from "../assets/github.svg";
+
+import visaCard from "../../assets/visa.svg";
+import masterCard from "../../assets/mastercard.svg";
+import payPalPay from "../../assets/paypal.svg";
+import applePay from "../../assets/applepay.svg";
+import googlePay from "../../assets/goolepay.svg";
+import twitter1 from "../../assets/twitter1.svg";
+import facebook2 from "../../assets/facebook2.svg";
+import instagram3 from "../../assets/instagram3.svg";
+import github4 from "../../assets/github.svg";
 const Footer = () => {
   return (
     <Grid

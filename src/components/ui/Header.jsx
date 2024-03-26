@@ -1,11 +1,12 @@
 /** @format */
-import React from "react";
+import React, { useContext } from "react";
 import HeaderTop from "./HeaderTop";
 import Galaxy21Image from "../../assets/samsung s21.jpeg";
 import GalaxyA12Image from "../../assets/Galaxy A12.jpeg";
 import SonyPlayStation from "../../assets/Sonyplaystation.jpeg";
 import drawerBackground from "../../assets/plates.png";
 import {
+  Button,
   AppBar,
   Toolbar,
   Tabs,
@@ -16,26 +17,37 @@ import {
   IconButton,
   Drawer,
   List,
-  ListItem,
   ListItemText,
   ListItemButton,
-  Collapse,
   Grid,
   ListItemIcon,
   ListSubheader,
+  Badge,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
-
+import AccountCircleIcon from "../../assets/UserCircle.svg";
 import {
   Menu as MenuIcon,
   Search as SearchIcon,
   ShoppingCart as ShoppingCartIcon,
-  AccountCircle as AccountCircleIcon,
   ChevronRight as ChevronRightIcon,
+  RemoveCircleOutline,
+  AddCircleOutline,
 } from "@mui/icons-material";
 import { styled, useTheme } from "@mui/material/styles";
 import { alpha } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import CartContext from "../../store/CartContext";
+import UserProgressContext from "../../store/UserProgressContext";
+import { currencyFormatter } from "../../util/formatting";
 const StyledTab = styled(Tab)(({ theme }) => ({
   ...theme.typography.subtitle2,
   marginLeft: "2px",
@@ -45,6 +57,20 @@ const StyledTab = styled(Tab)(({ theme }) => ({
     opacity: 1,
   },
 }));
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: 20,
+    top: 3,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}));
+const StyledMenuItem = styled(MenuItem)({
+  "&:hover": {
+    backgroundColor: "#eeeeee",
+    fontWeight: 500,
+  },
+});
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   flexGrow: 1,
@@ -102,11 +128,15 @@ const StyledListItemButton = styled(ListItemButton)(({ theme, selected }) => ({
 
 export default function Header() {
   const [value, setValue] = useState(0);
-
+  const [cart, setCart] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [checkoutDialogOpen, setCheckoutDialogOpen] = useState(false);
+  const cartCtxt = useContext(CartContext);
   const categories = {
     "Computer & Laptop": ["dell", "hp", "apple"],
     "Computer Accessories": ["Keyboard", "Mouse", "Printers"],
@@ -175,6 +205,13 @@ export default function Header() {
       },
     ],
   };
+
+  const totalCartItems = cartCtxt.items.reduce((totalNumberOfItems, item) => {
+    return totalNumberOfItems + item.quantity;
+  }, 0);
+  const cartTotal = cartCtxt.items.reduce((totalPrice, item) => {
+    return totalPrice + item.quantity * item.price;
+  }, 0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -191,7 +228,24 @@ export default function Header() {
   const handleSubCategoryClick = (subCategory) => {
     setSelectedSubCategory(subCategory);
   };
-
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  function handleDialogOpen() {
+    setDialogOpen(true);
+  }
+  function handleDialogClose() {
+    setDialogOpen(false);
+  }
+  function handleOpenCheckoutDialog() {
+    setCheckoutDialogOpen(true);
+  }
+  function handleCloseCheckoutDialog() {
+    setCheckoutDialogOpen(false);
+  }
   return (
     <div>
       <HeaderTop />
@@ -230,12 +284,159 @@ export default function Header() {
                   inputProps={{ "aria-label": "search" }}
                 />
               </Search>
-              <IconButton>
-                <ShoppingCartIcon />
-              </IconButton>
-              <IconButton>
-                <AccountCircleIcon />
-              </IconButton>
+              <StyledBadge
+                badgeContent={totalCartItems}
+                color="primary"
+                showZero>
+                <IconButton onClick={handleDialogOpen}>
+                  <ShoppingCartIcon color="error" />
+                </IconButton>
+              </StyledBadge>
+              <Tooltip title={"User Account"}>
+                <IconButton
+                  aria-controls="account-menu"
+                  aria-haspopup="true"
+                  onClick={handleMenuOpen}>
+                  <img src={AccountCircleIcon} />
+                </IconButton>
+              </Tooltip>
+
+              <Menu
+                id="account-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}>
+                <StyledMenuItem
+                  component={Link}
+                  to="/useraccount"
+                  onClick={handleMenuClose}>
+                  Your Account
+                </StyledMenuItem>
+                <StyledMenuItem onClick={handleMenuClose}>
+                  Your Orders
+                </StyledMenuItem>
+                <StyledMenuItem onClick={handleMenuClose}>
+                  Your Favourites
+                </StyledMenuItem>
+                <StyledMenuItem onClick={handleMenuClose}>
+                  Customer Contact
+                </StyledMenuItem>
+                <StyledMenuItem onClick={handleMenuClose}>
+                  Log Out
+                </StyledMenuItem>
+              </Menu>
+              <Dialog
+                open={dialogOpen}
+                onClose={handleDialogClose}
+                PaperProps={{
+                  style: { minWidth: 700, py: "3em", px: "2em" },
+                }}>
+                <DialogContent>
+                  <Grid container direction="column">
+                    <Grid item>
+                      <Typography
+                        variant="h4"
+                        component="div"
+                        sx={{
+                          width: "100%",
+                          textAlign: "center",
+                          marginBottom: 2,
+                        }}>
+                        Your Cart
+                      </Typography>
+                    </Grid>
+                    {cartCtxt.items.map((item) => (
+                      <Grid item>
+                        <Grid item container justifyContent="space-around">
+                          <Grid item>
+                            <Typography
+                              variant="body1"
+                              component={"div"}
+                              sx={{
+                                width: 300,
+                                textAlign: "left",
+                                paddingBottom: 2,
+                              }}>
+                              {item.title}-{item.quantity} *
+                              {currencyFormatter.format(item.price)}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            item
+                            sx={{
+                              width: "auto",
+                              alignSelf: "right",
+                              marginLeft: 2,
+                            }}>
+                            <Grid
+                              item
+                              container
+                              justifyContent="space-around"
+                              alignItems="center">
+                              <Grid item>
+                                <IconButton
+                                  onClick={() => cartCtxt.removeItem(item.id)}>
+                                  <RemoveCircleOutline />
+                                </IconButton>
+                              </Grid>
+                              <Grid item>
+                                <Typography
+                                  variant="subtitle2"
+                                  component={"span"}>
+                                  {item.quantity}
+                                </Typography>
+                              </Grid>
+                              <Grid item>
+                                <IconButton
+                                  onClick={() => cartCtxt.addItem(item)}>
+                                  <AddCircleOutline />
+                                </IconButton>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    ))}
+                    <Grid item>
+                      <Typography
+                        variant="h3"
+                        component={"div"}
+                        textAlign="right"
+                        sx={{ paddingRight: 3 }}>
+                        {currencyFormatter.format(cartTotal)}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Grid
+                        item
+                        container
+                        justifyContent={"space-around"}
+                        sx={{ my: 2 }}>
+                        <Grid item>
+                          <Button onClick={handleDialogClose}>Cancel</Button>
+                        </Grid>
+                        <Grid item>
+                          {cartCtxt.items.length > 0 && (
+                            <Button
+                              onClick={() => {
+                                handleOpenCheckoutDialog();
+                                handleDialogClose();
+                              }}>
+                              Checkout
+                            </Button>
+                          )}
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </DialogContent>
+              </Dialog>
+              <Dialog
+                open={checkoutDialogOpen}
+                onClose={handleCloseCheckoutDialog}>
+                <DialogTitle>WelCome to Checkout</DialogTitle>
+              </Dialog>
             </Toolbar>
           </AppBar>
         </Box>
